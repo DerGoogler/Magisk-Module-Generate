@@ -11,7 +11,8 @@ import {
   Typography,
 } from "@mui/material";
 import React, { Component } from "react";
-import { BasicModule } from "../module/basic";
+import { BasicModule } from "../modules/Basic";
+import { DynamicModule } from "../modules/Dynamic";
 import { validURL } from "../util/valids";
 
 interface State {
@@ -98,7 +99,7 @@ class Main extends Component<{}, State> {
                     : null
                 }
               >
-                {["Basic", /*"Dynamic Installer"*/].map((option: any) => (
+                {["Basic", "Dynamic Installer"].map((option: any) => (
                   <MenuItem key={option.toString()} value={option.toString()}>
                     {option}
                   </MenuItem>
@@ -264,24 +265,43 @@ class Main extends Component<{}, State> {
             disableElevation
             onClick={() => {
               if (id !== "") {
-                if (moduleType === "Basic") {
-                  BasicModule({
-                    useFoxMMMProps: foxmmmProps,
-                    prop: {
-                      id: id,
-                      name: name,
-                      author: author,
-                      description: description,
-                      updateJson: update_json_url,
-                      needRamdisk: needRamdisk,
-                      changeBoot: changeBoot,
-                      support: support_url,
-                      donate: donate_url,
-                      config: config_package,
-                    },
-                  });
-                } else {
-                  alert("Dynamic coming soon!");
+                try {
+                  if (moduleType === "Basic") {
+                    new BasicModule({
+                      useFoxMMMProps: foxmmmProps,
+                      prop: {
+                        id: id,
+                        name: name,
+                        author: author,
+                        description: description,
+                        updateJson: update_json_url,
+                        needRamdisk: needRamdisk,
+                        changeBoot: changeBoot,
+                        support: support_url,
+                        donate: donate_url,
+                        config: config_package,
+                      },
+                    });
+                  } else {
+                    new DynamicModule({
+                      useFoxMMMProps: foxmmmProps,
+                      setMagiskSupport: magiskSupport,
+                      prop: {
+                        id: id,
+                        name: name,
+                        author: author,
+                        description: description,
+                        updateJson: update_json_url,
+                        needRamdisk: needRamdisk,
+                        changeBoot: changeBoot,
+                        support: support_url,
+                        donate: donate_url,
+                        config: config_package,
+                      },
+                    });
+                  }
+                } catch (error) {
+                  alert(error);
                 }
               } else {
                 alert("Please fillup the id field");

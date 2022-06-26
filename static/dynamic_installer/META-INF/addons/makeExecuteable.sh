@@ -1,0 +1,1 @@
+chmod +x $MODPATH/system/bin/$1

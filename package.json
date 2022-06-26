@@ -15,7 +15,7 @@
     "build:electron": "webpack --config webpack/electron.webpack.ts --mode=production",
     "build:react": "webpack --config webpack/react.webpack.ts --mode=production",
     "package": "npm-run-all build package:dist",
-    "package:dist": "electron-builder --dir"
+    "package:dist": "electron-builder -l"
   },
   "keywords": [],
   "author": "Der_Googler",
@@ -24,6 +24,7 @@
     "@emotion/react": "^11.9.0",
     "@emotion/styled": "^11.8.1",
     "@mui/material": "^5.6.4",
+    "fs-extra": "^10.1.0",
     "react": "^18.1.0",
     "react-dom": "^18.1.0",
     "zip-lib": "^0.7.3"
@@ -62,20 +63,17 @@
     "extends": null,
     "copyright": "Copyright © 2022 ${author}",
     "productName": "MMG",
-    "mac": {
-      "category": "public.app-category.tools"
-    },
-    "win": {
-      "publisherName": "Der_Googler",
-      "target": [
-        "exe"
-      ]
-    },
     "linux": {
+      "icon": "./static/ic_launcher.png",
       "maintainer": "Der_Googler",
+      "category": "Application",
       "target": [
-        "tar.xz",
-        "deb"
+        {
+          "target": "deb",
+          "arch": [
+            "x64"
+          ]
+        }
       ]
     },
     "directories": {
@@ -83,7 +81,11 @@
     },
     "files": [
       "package.json",
-      "dist/**"
+      "dist/**",
+      "static/**"
+    ],
+    "extraResources": [
+      "./static/**"
     ]
   },
   "engines": {
