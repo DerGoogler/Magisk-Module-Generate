@@ -1,0 +1,93 @@
+{
+  "name": "magisk-module-generate",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Simple app to generate Magisk Modules and Dynamic Installer Modules",
+  "main": "./dist/main.js",
+  "scripts": {
+    "dev": "npm-run-all -p dev:react electron:serve",
+    "dev:electron": "cross-env NODE_ENV=development webpack --config webpack/electron.webpack.ts --mode=development && npm run start:electron",
+    "dev:react": "cross-env NODE_ENV=development webpack serve --config webpack/react.webpack.ts --mode=development",
+    "electron:serve": "wait-on http-get://localhost:4000/ && npm run dev:electron",
+    "start:electron": "electron .",
+    "build": "npm-run-all build:electron build:react",
+    "build:run": "npm-run-all build start:electron",
+    "build:electron": "webpack --config webpack/electron.webpack.ts --mode=production",
+    "build:react": "webpack --config webpack/react.webpack.ts --mode=production",
+    "package": "npm-run-all build package:dist",
+    "package:dist": "electron-builder --dir"
+  },
+  "keywords": [],
+  "author": "Der_Googler",
+  "license": "gpl-3.0",
+  "dependencies": {
+    "@emotion/react": "^11.9.0",
+    "@emotion/styled": "^11.8.1",
+    "@mui/material": "^5.6.4",
+    "react": "^18.1.0",
+    "react-dom": "^18.1.0",
+    "zip-lib": "^0.7.3"
+  },
+  "devDependencies": {
+    "@types/archiver": "^5.3.1",
+    "@types/node": "^16.11.33",
+    "@types/react": "^18.0.8",
+    "@types/react-dom": "^18.0.3",
+    "@types/webpack-dev-server": "^4.7.2",
+    "@typescript-eslint/eslint-plugin": "^5.22.0",
+    "@typescript-eslint/parser": "^5.22.0",
+    "cross-env": "^7.0.3",
+    "electron": "^18.2.0",
+    "electron-builder": "^23.0.3",
+    "eslint": "^8.14.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-react": "^7.29.4",
+    "html-webpack-plugin": "^5.5.0",
+    "npm-run-all": "^4.1.5",
+    "prettier": "^2.6.2",
+    "ts-loader": "^9.3.0",
+    "ts-node": "^10.7.0",
+    "typescript": "^4.6.4",
+    "wait-on": "^6.0.1",
+    "webpack": "^5.72.0",
+    "webpack-cli": "^4.9.2",
+    "webpack-dev-server": "^4.9.0"
+  },
+  "build": {
+    "appId": "com.dergoogler.mmg",
+    "artifactName": "MMG-${version}.${ext}",
+    "asar": true,
+    "npmRebuild": false,
+    "compression": "maximum",
+    "extends": null,
+    "copyright": "Copyright © 2022 ${author}",
+    "productName": "MMG",
+    "mac": {
+      "category": "public.app-category.tools"
+    },
+    "win": {
+      "publisherName": "Der_Googler",
+      "target": [
+        "exe"
+      ]
+    },
+    "linux": {
+      "maintainer": "Der_Googler",
+      "target": [
+        "tar.xz",
+        "deb"
+      ]
+    },
+    "directories": {
+      "output": "packages"
+    },
+    "files": [
+      "package.json",
+      "dist/**"
+    ]
+  },
+  "engines": {
+    "npm": ">=7.0.0",
+    "node": ">=16.13.0"
+  }
+}
